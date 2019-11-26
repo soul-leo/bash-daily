@@ -1,0 +1,19 @@
+#!/bin/bash
+for ((i=1;i<=5;i++));
+do
+	awk 'NR==FNR{a[$0]} NR>FNR{if($0 in a) print $0}' /root/diff/${i} /root/diff/url > /root/work/${i}${i}
+done
+
+aa=(11 22 33 44 55)
+bb=("msite_sy.sql" "msite_wxbook.sql" "msite_xh.sql" "msite_xj.sql" "msite_zhy.sql")
+for ((i=0;i<=4;i++));
+do
+	m=`expr $i + 1`
+	awk '{printf "%s%s%s\n" , "'\''",$0,"'\''"}' /root/work/${aa[$i]} > /root/work/tmp_${m} ; cat /root/work/tmp_${m} > /root/work/${aa[$i]}
+	echo ${bb[$i]} ${aa[$i]}
+	awk 'FILENAME="'${bb[$i]}'"{FS=","} NR==FNR{c[$0]} NR>FNR{if($3 in c) print $0}' /root/work/${aa[$i]} /root/work/${bb[$i]} > /root/work/url_${m}${m}
+	cat /root/work/url_${m}${m} >> /root/666/url_${m}
+done
+
+
+#根据一个字段，通过数组和awk的方式筛选重复的信息源。
