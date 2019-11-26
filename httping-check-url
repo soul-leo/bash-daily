@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "Content-type: text/plain; charset=iso-8859-1"  
+echo   
+echo
+if [ -f 51 ]; then
+    cat 51 | while read i_url   
+    do
+        if [ `httping -c 1 -g $i_url | grep connected | wc -l` -eq 0 ]; then
+            echo $i_url >> /usr/src/51
+        fi
+    done
+fi
+
+#51 is url file
